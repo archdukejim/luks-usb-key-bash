@@ -38,5 +38,3 @@ This script automates the process of setting up a USB key file to automatically 
 
 ## Security Warning
 The USB drive acts as a physical key to your data. Anyone with physical access to this USB drive can unlock your encrypted partition. It is recommended to keep the USB drive in a secure location or carry it with you.
-Would you like to add a revert script that can automatically restore the /etc/crypttab.bak and remove the USB key from the LUKS slot?
-
