@@ -18,11 +18,11 @@ This script automates the process of setting up a USB key file to automatically 
    1. Mount your USB drive to a known location (e.g., /mnt/usb).
    2. Make the script executable:
    
-   chmod +x luks_usb_setup.sh
+   `chmod +x luks_usb_setup.sh`
    
    3. Run the script as root:
    
-   sudo ./luks_usb_setup.sh
+   `sudo ./luks_usb_setup.sh`
    
    4. Follow the prompts:
    * Provide the path to your LUKS partition (e.g., /dev/nvme0n1p3).
