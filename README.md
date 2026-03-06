@@ -7,6 +7,21 @@ This script automates the process of setting up a USB key file to automatically 
 * Persistence: Uses device UUIDs in the configuration to ensure the system finds the correct USB drive even if its device name (e.g., /dev/sdb1) changes.
 * Testing: Automatically tests the newly generated key against the LUKS volume before committing changes to the system.
 
+## Linux Distribution Information
+
+This script is highly specific to the Debian and Ubuntu family of Linux distributions. While the core LUKS commands (cryptsetup) are universal, the boot-time automation relies on scripts and tools unique to those systems.
+### Distribution-Specific Elements:
+
+* passdev Keyscript: This is a Debian-specific script included in the cryptsetup package. It is designed to wait for a removable device, mount it, read a key, and unmount it during the boot process. It is generally not included in other distributions like Arch Linux or Fedora without manual porting.
+* update-initramfs: This command is part of the initramfs-tools package, which is the standard tool for managing initial RAM disks in Debian, Ubuntu, and Linux Mint.
+* Package Dependencies: The script requires cryptsetup-initramfs or cryptsetup-run to ensure the necessary hooks and the passdev script are included in the boot image.
+
+### Comparison with Other Distributions
+If you were to use this on a non-Debian system, you would need to replace these components:
+* Arch Linux: Uses mkinitcpio instead of update-initramfs. For USB unlocking, you would typically use the sd-encrypt or encrypt hooks with specific kernel parameters instead of a passdev keyscript.
+* Fedora/RHEL: Uses dracut to generate the initrd. Unlocking via USB often involves using the rd.luks.key kernel parameter or a Dracut-specific module.
+* Systemd-native: On many modern distros, systemd-cryptsetup handles unlocking, but it does not support the keyscript= option in /etc/crypttab, which is what this script relies on.
+
 ## Prerequisites
 
 * A LUKS-encrypted partition (e.g., your root or data partition).
