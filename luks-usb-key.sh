@@ -7,6 +7,18 @@ set -o pipefail
 read -p "Enter the LUKS partition (e.g., /dev/nvme0n1p3): " luks_volume
 read -p "Enter the USB mount point (e.g., /mnt/usb): " usb_mount
 
+# Validation: Check if the USB mount point exists and is a directory
+if [ ! -d "$usb_mount" ]; then
+    echo "Error: Mount point $usb_mount does not exist or is not a directory."
+    exit 1
+fi
+
+# Validation: Check if the USB is actually mounted (required for findmnt)
+if ! findmnt --target "$usb_mount" > /dev/null; then
+    echo "Error: Nothing is mounted at $usb_mount."
+    exit 1
+fi
+
 usb_key="$usb_mount/unlock.key"
 
 # Retrieve UUIDs for the LUKS volume and the USB device
